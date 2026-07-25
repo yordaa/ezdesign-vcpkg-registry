@@ -16,6 +16,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - name: Authenticate private registry
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh auth setup-git
       - uses: lukka/run-vcpkg@v11
       - name: Install from registry
         run: >-

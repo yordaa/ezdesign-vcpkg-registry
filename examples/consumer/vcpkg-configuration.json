@@ -7,7 +7,7 @@
     {
       "kind": "git",
       "repository": "https://github.com/yordaa/ezdesign-vcpkg-registry",
-      "baseline": "cff7d93a81cd1b75e63726bf2cc1822d812d7b84",
+      "baseline": "ed7446e656ba73c1221f73a26f70b915947b736c",
       "packages": [
         "ezd2step"
       ]
