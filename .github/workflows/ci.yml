@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  install:
+    strategy:
+      matrix:
+        include:
+          - os: macos-15
+            triplet: arm64-osx
+          - os: windows-2022
+            triplet: x64-windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: lukka/run-vcpkg@v11
+      - name: Install from registry
+        run: >-
+          vcpkg install
+          --x-manifest-root=${{ github.workspace }}/examples/consumer
+          --triplet=${{ matrix.triplet }}
+      - name: Run ezd2step
+        shell: bash
+        run: >-
+          "${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}/tools/ezd2step/ezd2step${{ runner.os == 'Windows' && '.exe' || '' }}"
+          --version

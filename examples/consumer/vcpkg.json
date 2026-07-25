@@ -1,0 +1,7 @@
+{
+  "name": "ezd2step-consumer",
+  "version-string": "0",
+  "dependencies": [
+    "ezd2step"
+  ]
+}

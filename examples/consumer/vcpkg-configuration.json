@@ -1,0 +1,16 @@
+{
+  "default-registry": {
+    "kind": "builtin",
+    "baseline": "6d332a018c433fad20822ff4b536e4ccdc3413bd"
+  },
+  "registries": [
+    {
+      "kind": "git",
+      "repository": "https://github.com/yordaa/ezdesign-vcpkg-registry",
+      "baseline": "cff7d93a81cd1b75e63726bf2cc1822d812d7b84",
+      "packages": [
+        "ezd2step"
+      ]
+    }
+  ]
+}
