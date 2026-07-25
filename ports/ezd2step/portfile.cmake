@@ -22,6 +22,11 @@ vcpkg_download_distfile(archive
 vcpkg_extract_source_archive(source_path ARCHIVE "${archive}")
 
 file(COPY "${source_path}/" DESTINATION "${CURRENT_PACKAGES_DIR}/tools/ezd2step")
+if(VCPKG_TARGET_IS_OSX)
+    file(GLOB dylibs "${CURRENT_PACKAGES_DIR}/tools/ezd2step/*.dylib")
+    file(COPY ${dylibs} DESTINATION "${CURRENT_PACKAGES_DIR}/lib")
+    file(REMOVE ${dylibs})
+endif()
 file(INSTALL "${CURRENT_PORT_DIR}/copyright"
     DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}"
 )
