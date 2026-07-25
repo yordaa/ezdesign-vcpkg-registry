@@ -1,6 +1,6 @@
 # ezdesign-vcpkg-registry
 
-Private vcpkg Git registry for the prebuilt `ezd2step` tool. This repository
+Public vcpkg Git registry for the prebuilt `ezd2step` tool. This repository
 contains only registry metadata, ports, CI, and a consumer example—no product
 source or release binaries.
 
@@ -12,10 +12,9 @@ repository owns ezd2step source versions, release tags, and release assets.
 
 Copy [`examples/consumer/vcpkg.json`](examples/consumer/vcpkg.json) and
 [`examples/consumer/vcpkg-configuration.json`](examples/consumer/vcpkg-configuration.json)
-into a project. Because this registry is private, authenticate Git first:
+into a project, then install:
 
 ```sh
-gh auth setup-git
 vcpkg install --triplet arm64-osx
 ```
 
