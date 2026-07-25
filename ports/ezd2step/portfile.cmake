@@ -21,7 +21,7 @@ vcpkg_download_distfile(archive
 )
 vcpkg_extract_source_archive(source_path ARCHIVE "${archive}")
 
-file(INSTALL "${source_path}/" DESTINATION "${CURRENT_PACKAGES_DIR}/tools/ezd2step")
+file(COPY "${source_path}/" DESTINATION "${CURRENT_PACKAGES_DIR}/tools/ezd2step")
 file(INSTALL "${CURRENT_PORT_DIR}/copyright"
     DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}"
 )
