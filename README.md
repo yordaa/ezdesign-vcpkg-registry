@@ -4,6 +4,10 @@ Public vcpkg Git registry for the prebuilt `ezd2step` tool. This repository
 contains only registry metadata, ports, CI, and a consumer example—no product
 source or release binaries.
 
+It also carries the source-built `opencascade` dependency used by ezd2step.
+That port starts from `TKDESTEP` and lets OCCT build only its transitive
+toolkit closure.
+
 The public
 [`yordaa/ezdesign-step-bridge`](https://github.com/yordaa/ezdesign-step-bridge)
 repository owns ezd2step source versions, release tags, and release assets.
