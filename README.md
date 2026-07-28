@@ -1,33 +1,34 @@
 # ezdesign-vcpkg-registry
 
-Public vcpkg Git registry for the prebuilt `ezd2step` tool. This repository
-contains only registry metadata, ports, CI, and a consumer example—no product
-source or release binaries.
+Public vcpkg Git registry for the source-built `ezdesign-step-bridge` package.
+It installs the `ezd2step` command-line tool and its minimal dynamic OCCT
+runtime closure.
 
-It also carries the source-built `opencascade` dependency used by ezd2step.
-That port starts from `TKDESTEP` and lets OCCT build only its transitive
-toolkit closure.
+The custom `opencascade` port starts from `TKDESTEP` and lets OCCT compute its
+23-toolkit transitive closure. It supports only release-only dynamic builds for
+macOS arm64 and Windows x64.
 
-The public
+The
 [`yordaa/ezdesign-step-bridge`](https://github.com/yordaa/ezdesign-step-bridge)
-repository owns ezd2step source versions, release tags, and release assets.
+repository owns the proprietary bridge source, versions, and immutable tags.
 
-## Consume ezd2step
+## Consume ezdesign-step-bridge
 
 Copy [`examples/consumer/vcpkg.json`](examples/consumer/vcpkg.json) and
 [`examples/consumer/vcpkg-configuration.json`](examples/consumer/vcpkg-configuration.json)
-into a project, then install:
+into a project. Copy the matching file from [`triplets`](triplets), then install:
 
 ```sh
-vcpkg install --triplet arm64-osx
+vcpkg install \
+  --triplet arm64-osx-release \
+  --overlay-triplets /path/to/triplets
 ```
 
-Use `x64-windows` on Windows. The installed executable and its runtime
-libraries are under `vcpkg_installed/<triplet>/tools/ezd2step`.
+Use `x64-windows-release` on Windows. The executable is installed under
+`vcpkg_installed/<triplet>/tools/ezdesign-step-bridge`.
 
 ## Update
 
-Publish and verify the immutable source release assets first. Then update the
-port, commit it, run `vcpkg x-add-version`, verify the generated git-tree, and
-commit the versions database. The source release tag is the product version
-authority.
+Publish and verify the immutable bridge source tag first. Then update the port,
+commit it, run `vcpkg x-add-version`, verify the generated git tree, and commit
+the versions database. The source tag is the product version authority.
