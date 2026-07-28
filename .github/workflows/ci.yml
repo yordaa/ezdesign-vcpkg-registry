@@ -4,15 +4,18 @@ on:
   push:
   pull_request:
 
+env:
+  BRIDGE_TAG: v1.1.0
+
 jobs:
   install:
     strategy:
       matrix:
         include:
           - os: macos-15
-            triplet: arm64-osx
+            triplet: arm64-osx-release
           - os: windows-2022
-            triplet: x64-windows
+            triplet: x64-windows-release
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
@@ -30,8 +33,46 @@ jobs:
           vcpkg install
           --x-manifest-root=${{ github.workspace }}/examples/consumer
           --triplet=${{ matrix.triplet }}
-      - name: Run ezd2step
+          --overlay-triplets=${{ github.workspace }}/triplets
+      - name: Convert representative EZD fixture
         shell: bash
-        run: >-
-          "${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}/tools/ezd2step/ezd2step${{ runner.os == 'Windows' && '.exe' || '' }}"
-          --version
+        run: |
+          installed="${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}"
+          tool="$installed/tools/ezdesign-step-bridge/ezd2step${{ runner.os == 'Windows' && '.exe' || '' }}"
+          fixture="$RUNNER_TEMP/20260427.ezd"
+          output="$RUNNER_TEMP/20260427.step"
+          curl --fail --location --output "$fixture" \
+            "https://raw.githubusercontent.com/yordaa/ezdesign-step-bridge/$BRIDGE_TAG/tests/data/20260427.ezd"
+          "$tool" "$fixture" "$output"
+          test -s "$output"
+          grep -q "ISO-10303-21" "$output"
+          test ! -d "$installed/debug"
+          test -f "$installed/share/ezdesign-step-bridge/LICENSE"
+          test -f "$installed/share/ezdesign-step-bridge/NOTICE"
+          grep -q "GNU LESSER GENERAL PUBLIC LICENSE" "$installed/share/opencascade/copyright"
+          grep -qi "Open CASCADE exception" "$installed/share/opencascade/copyright"
+          if vcpkg list --x-install-root="${{ github.workspace }}/examples/consumer/vcpkg_installed" |
+            grep -Eiq "^(freeimage|freetype|rapidjson|tbb|vtk):"; then
+            exit 1
+          fi
+      - name: Verify macOS dynamic OCCT linkage
+        if: runner.os == 'macOS'
+        shell: bash
+        run: |
+          installed="${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}"
+          otool -L "$installed/tools/ezdesign-step-bridge/ezd2step" | grep -q libTKDESTEP
+          test "$(find "$installed/lib" -maxdepth 1 -type f -name 'libTK*.dylib' | wc -l | tr -d ' ')" = 23
+      - name: Verify Windows dynamic OCCT linkage
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $installed = "${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}"
+          $tool = "$installed/tools/ezdesign-step-bridge/ezd2step.exe"
+          $dumpbin = Get-ChildItem "${env:ProgramFiles}\Microsoft Visual Studio\2022\Enterprise\VC\Tools\MSVC\*\bin\Hostx64\x64\dumpbin.exe" |
+            Select-Object -Last 1
+          if (-not (& $dumpbin /dependents $tool | Select-String TKDESTEP)) {
+            throw "ezd2step is not dynamically linked to TKDESTEP"
+          }
+          if ((Get-ChildItem "$installed/bin/TK*.dll").Count -ne 23) {
+            throw "Expected the 23-toolkit TKDESTEP closure"
+          }

@@ -1,7 +1,7 @@
 {
-  "name": "ezd2step-consumer",
+  "name": "ezdesign-step-bridge-consumer",
   "version-string": "0",
   "dependencies": [
-    "ezd2step"
+    "ezdesign-step-bridge"
   ]
 }

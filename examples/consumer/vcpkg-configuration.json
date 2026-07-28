@@ -7,9 +7,10 @@
     {
       "kind": "git",
       "repository": "https://github.com/yordaa/ezdesign-vcpkg-registry",
-      "baseline": "8c992aa50d60a4f5d5c9f81575bca3866cd29743",
+      "baseline": "4e5193957dcb2b91b02d9f213607a18101cd5422",
       "packages": [
-        "ezd2step"
+        "ezdesign-step-bridge",
+        "opencascade"
       ]
     }
   ]
