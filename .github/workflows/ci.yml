@@ -39,13 +39,32 @@ jobs:
         run: |
           installed="${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}"
           tool="$installed/tools/ezdesign-step-bridge/ezd2step${{ runner.os == 'Windows' && '.exe' || '' }}"
-          fixture="$RUNNER_TEMP/20260427.ezd"
+          source_root="$RUNNER_TEMP/bridge-source"
+          archive="$RUNNER_TEMP/bridge.tar.gz"
           output="$RUNNER_TEMP/20260427.step"
-          curl --fail --location --output "$fixture" \
-            "https://raw.githubusercontent.com/yordaa/ezdesign-step-bridge/$BRIDGE_TAG/tests/data/20260427.ezd"
+          validator_build="$RUNNER_TEMP/bridge-validator"
+          mkdir -p "$source_root"
+          curl --fail --location --output "$archive" \
+            "https://github.com/yordaa/ezdesign-step-bridge/archive/$BRIDGE_TAG.tar.gz"
+          cmake -E chdir "$source_root" cmake -E tar xzf "$archive"
+          source_dir="$(find "$source_root" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+          fixture="$source_dir/tests/data/20260427.ezd"
           "$tool" "$fixture" "$output"
           test -s "$output"
           grep -q "ISO-10303-21" "$output"
+          cmake -S "$source_dir" -B "$validator_build" \
+            -DBUILD_TESTING=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH="$installed"
+          cmake --build "$validator_build" --config Release \
+            --target test_20260427_conversion --parallel 2
+          validator="$(find "$validator_build" -type f \
+            -name "test_20260427_conversion${{ runner.os == 'Windows' && '.exe' || '' }}" \
+            -print -quit)"
+          if [ "${{ runner.os }}" = "Windows" ]; then
+            PATH="$(cygpath --unix "$installed/bin"):$PATH"
+          fi
+          "$validator" "$output"
           test ! -d "$installed/debug"
           test -f "$installed/share/ezdesign-step-bridge/LICENSE"
           test -f "$installed/share/ezdesign-step-bridge/NOTICE"
