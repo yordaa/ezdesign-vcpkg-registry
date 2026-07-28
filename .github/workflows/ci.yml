@@ -50,8 +50,6 @@ jobs:
           source_dir="$(find "$source_root" -mindepth 1 -maxdepth 1 -type d -print -quit)"
           fixture="$source_dir/tests/data/20260427.ezd"
           "$tool" "$fixture" "$output"
-          test -s "$output"
-          grep -q "ISO-10303-21" "$output"
           cmake -S "$source_dir" -B "$validator_build" \
             -DBUILD_TESTING=ON \
             -DCMAKE_BUILD_TYPE=Release \
@@ -70,10 +68,7 @@ jobs:
           test -f "$installed/share/ezdesign-step-bridge/NOTICE"
           grep -q "GNU LESSER GENERAL PUBLIC LICENSE" "$installed/share/opencascade/copyright"
           grep -qi "Open CASCADE exception" "$installed/share/opencascade/copyright"
-          if vcpkg list --x-install-root="${{ github.workspace }}/examples/consumer/vcpkg_installed" |
-            grep -Eiq "^(freeimage|freetype|rapidjson|tbb|vtk):"; then
-            exit 1
-          fi
+          ! vcpkg list --x-install-root="${{ github.workspace }}/examples/consumer/vcpkg_installed" | grep -Eiq "^(freeimage|freetype|rapidjson|tbb|vtk):"
       - name: Verify macOS dynamic OCCT linkage
         if: runner.os == 'macOS'
         shell: bash
