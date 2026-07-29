@@ -3,6 +3,10 @@
     "ezd2step": {
       "baseline": "1.0.2",
       "port-version": 4
+    },
+    "opencascade": {
+      "baseline": "7.9.3",
+      "port-version": 0
     }
   }
 }
