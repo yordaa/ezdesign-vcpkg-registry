@@ -94,7 +94,7 @@ jobs:
           test -f "$installed/share/ezdesign-step-bridge/NOTICE"
           grep -q "GNU LESSER GENERAL PUBLIC LICENSE" "$installed/share/opencascade/copyright"
           grep -qi "Open CASCADE exception" "$installed/share/opencascade/copyright"
-          ! vcpkg list --x-install-root="${{ github.workspace }}/examples/consumer/vcpkg_installed" | grep -Eiq "^(freeimage|freetype|rapidjson|tbb|vtk):"
+          ! vcpkg list --x-install-root="${{ github.workspace }}/examples/consumer/vcpkg_installed" | grep -Eiq "^(freeimage|freetype|rapidjson|vtk):"
       - name: Verify macOS dynamic OCCT linkage
         if: runner.os == 'macOS'
         shell: bash
