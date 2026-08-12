@@ -2,6 +2,7 @@
   "name": "ezdesign-step-bridge-consumer",
   "version-string": "0",
   "dependencies": [
+    "autoremesher",
     "ezdesign-step-bridge"
   ]
 }

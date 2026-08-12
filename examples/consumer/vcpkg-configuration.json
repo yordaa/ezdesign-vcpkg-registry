@@ -9,6 +9,7 @@
       "repository": "https://github.com/yordaa/ezdesign-vcpkg-registry",
       "baseline": "f86c3f024baf8165974e0c00fc11af97f95a0771",
       "packages": [
+        "autoremesher",
         "ezdesign-step-bridge",
         "opencascade"
       ]

@@ -46,6 +46,20 @@ jobs:
           --x-manifest-root=${{ github.workspace }}/examples/consumer
           --triplet=${{ matrix.triplet }}
           --overlay-triplets=${{ github.workspace }}/triplets
+      - name: Remesh a closed triangle mesh
+        shell: bash
+        run: |
+          installed="${{ github.workspace }}/examples/consumer/vcpkg_installed/${{ matrix.triplet }}"
+          tool="$installed/tools/autoremesher/autoremesher-cli${{ runner.os == 'Windows' && '.exe' || '' }}"
+          input="$RUNNER_TEMP/tetrahedron.obj"
+          output="$RUNNER_TEMP/remeshed.obj"
+          printf '%s\n' \
+            'v 0 0 0' 'v 1 0 0' 'v 0 1 0' 'v 0 0 1' \
+            'f 1 3 2' 'f 1 2 4' 'f 1 4 3' 'f 2 3 4' > "$input"
+          "$tool" --input "$input" --output "$output" --target-quads 10 --threads 1 |
+            grep -q '^RESULT '
+          test -s "$output"
+          test -f "$installed/share/autoremesher/copyright"
       - name: Convert representative EZD fixture
         shell: bash
         run: |
