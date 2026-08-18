@@ -1,13 +1,19 @@
 {
   "versions": [
     {
+      "git-tree": "893f2bf911db0f3a0c97897eb31e423f572c1c8d",
+      "version-string": "1.0.0-ezdesign.1",
+      "port-version": 2
+    },
+    {
       "git-tree": "a02791fdcab49ec7f132feebfef0d42bb6d6196d",
       "version-string": "1.0.0-ezdesign.1",
       "port-version": 1
     },
     {
       "git-tree": "094595c09e66ce837f93e410b5324ec1b2847f9d",
-      "version-string": "1.0.0-ezdesign.1"
+      "version-string": "1.0.0-ezdesign.1",
+      "port-version": 0
     }
   ]
 }
