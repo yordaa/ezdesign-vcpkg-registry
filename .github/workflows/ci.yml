@@ -16,9 +16,9 @@ jobs:
       matrix:
         include:
           - os: macos-15
-            triplet: arm64-osx-release
+            triplet: arm64-osx
           - os: windows-2022
-            triplet: x64-windows-release
+            triplet: x64-windows
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v6
@@ -36,7 +36,7 @@ jobs:
         uses: actions/cache@v6
         with:
           path: .vcpkg-binary-cache
-          key: ${{ matrix.os }}-${{ matrix.triplet }}-vcpkg-v2-${{ hashFiles('examples/consumer/vcpkg.json', 'examples/consumer/vcpkg-configuration.json', 'triplets/**', 'ports/**', 'versions/**') }}
+          key: ${{ matrix.os }}-${{ matrix.triplet }}-vcpkg-v2-${{ hashFiles('examples/consumer/vcpkg.json', 'examples/consumer/vcpkg-configuration.json', 'ports/**', 'versions/**') }}
           restore-keys: |
             ${{ matrix.os }}-${{ matrix.triplet }}-vcpkg-v2-
       - uses: lukka/run-vcpkg@v11
@@ -45,7 +45,6 @@ jobs:
           vcpkg install
           --x-manifest-root=${{ github.workspace }}/examples/consumer
           --triplet=${{ matrix.triplet }}
-          --overlay-triplets=${{ github.workspace }}/triplets
       - name: Remesh a closed triangle mesh
         shell: bash
         run: |
@@ -89,7 +88,6 @@ jobs:
             PATH="$(cygpath --unix "$installed/bin"):$PATH"
           fi
           "$validator" "$output"
-          test ! -d "$installed/debug"
           test -f "$installed/share/ezdesign-step-bridge/LICENSE"
           test -f "$installed/share/ezdesign-step-bridge/NOTICE"
           grep -q "GNU LESSER GENERAL PUBLIC LICENSE" "$installed/share/opencascade/copyright"
