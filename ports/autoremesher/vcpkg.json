@@ -1,7 +1,7 @@
 {
   "name": "autoremesher",
   "version-string": "1.0.0-ezdesign.1",
-  "port-version": 1,
+  "port-version": 2,
   "description": "Qt-free AutoRemesher command-line tool",
   "homepage": "https://github.com/yordaa/autoremesher",
   "license": "MIT",

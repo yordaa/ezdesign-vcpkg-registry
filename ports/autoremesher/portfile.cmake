@@ -18,7 +18,6 @@ vcpkg_cmake_configure(
 )
 vcpkg_cmake_install()
 vcpkg_copy_tools(TOOL_NAMES autoremesher-cli AUTO_CLEAN)
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug")
 
 if(VCPKG_TARGET_IS_OSX)
     file(GLOB TBB_RUNTIME "${CURRENT_INSTALLED_DIR}/lib/libtbb.*dylib")
