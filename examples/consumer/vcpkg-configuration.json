@@ -7,7 +7,7 @@
     {
       "kind": "git",
       "repository": "https://github.com/yordaa/ezdesign-vcpkg-registry",
-      "baseline": "415bf4c35373d2451a19c796e4feb5de74230778",
+      "baseline": "07de685b5ba1e2667c6f9114ce584967aa938a7e",
       "packages": [
         "autoremesher",
         "ezdesign-step-bridge",
