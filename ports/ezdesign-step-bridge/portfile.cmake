@@ -4,7 +4,7 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO yordaa/ezdesign-step-bridge
     REF "v${VERSION}"
-    SHA512 739a66d6b3efd9044fb27f7a519dc066206d899d0a7e36f43723156f5fa8aa1dd754a28c968435542b633f64b7b89d6df74c4c7b4885e1ddeedfac311138a3d4
+    SHA512 b75b23f4b9d6d4218a052bb7c836fa62ecbc88f3d4c6966250eb2f9de9233b697f34cd6ec65d6f0df0f3ab2144d2ddb2acc44db2eabaa959628c7ff6d406b078
 )
 
 vcpkg_cmake_configure(
