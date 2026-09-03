@@ -1,6 +1,6 @@
 {
   "name": "ezdesign-step-bridge",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "description": "EZDesign STEP file converter using OCCT",
   "homepage": "https://github.com/yordaa/ezdesign-step-bridge",
   "license": "LicenseRef-Proprietary",
