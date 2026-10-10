@@ -1,6 +1,6 @@
 {
   "name": "autoremesher",
-  "version-semver": "1.0.1",
+  "version-semver": "1.0.2",
   "description": "Qt-free AutoRemesher command-line tool",
   "homepage": "https://github.com/yordaa/autoremesher",
   "license": "MIT",
