@@ -6,8 +6,8 @@ endif()
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO yordaa/autoremesher
-    REF d70bffcd9756a4c07674f1bedb2c0541044c7d81
-    SHA512 877c2d4e3590a4772160be3e187cd1705d473fd9412f42b033d906fa2ee0e6dddd9e97ca369f11ec2dd64c327d113b892561ebf9564201182461defdb999da45
+    REF 4e935e02eec2096fcb0bb6bcfd22dfa00a5b4620
+    SHA512 ef172d4823fe7a3bd22f1b4f976023b63392b1b4cd63baf5666321b967f1b7e5791b1811d0ebe773f06f6492e2829e59845bd0a53e4ae4f697f02e21c3bedb18
 )
 
 vcpkg_cmake_configure(
