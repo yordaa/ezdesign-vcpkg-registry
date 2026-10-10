@@ -26,10 +26,21 @@ jobs:
           fetch-depth: 0
       - name: Test the checked-out registry
         shell: bash
-        run: >-
-          git config --global
-          url."$GITHUB_WORKSPACE".insteadOf
-          https://github.com/yordaa/ezdesign-vcpkg-registry
+        run: |
+          git config --global url."$GITHUB_WORKSPACE".insteadOf https://github.com/yordaa/ezdesign-vcpkg-registry
+          python - <<'PYTHON'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          path = Path("examples/consumer/vcpkg-configuration.json")
+          config = json.loads(path.read_text())
+          registry = config["registries"][0]
+          assert registry["repository"] == "https://github.com/yordaa/ezdesign-vcpkg-registry"
+          head = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+          registry.update({"baseline": head, "reference": head})
+          path.write_text(json.dumps(config, indent=2) + "\n")
+          PYTHON
       - name: Prepare vcpkg cache
         run: cmake -E make_directory .vcpkg-binary-cache
       - name: Cache vcpkg packages
